@@ -53,7 +53,6 @@ public class Main {
 
     public static int evaluateExpression(ArrayList<Token> tokenSequence) {
         Stack<Token> tokStack = new Stack<>();
-        int sum = 0;
 
         // Iterate backwards from the end of the sequence (ignoring the trailing semicolon)
         for (int i = tokenSequence.size() - 2; i >= 0; i--) {
@@ -64,11 +63,10 @@ public class Main {
             if (tok.getTokenType().equals("op")) {
                 OpToken opToken = (OpToken) tok;
 
-                // For prefix evaluation, pop operands in order
+                // Pop the two operands
                 NumToken tok1 = (NumToken) tokStack.pop();
                 NumToken tok2 = (NumToken) tokStack.pop();
 
-                // Evaluate
                 int result = 0;
 
                 switch (opToken.getOperator()) {
@@ -76,12 +74,14 @@ public class Main {
                         result = tok1.value * tok2.value;
                         break;
                     case '/':
+                        // tok1 is evaluated first, so it's the numerator in prefix order
                         result = tok1.value / tok2.value;
                         break;
                     case '+':
                         result = tok1.value + tok2.value;
                         break;
                     case '-':
+                        // tok1 is the left operand, tok2 is the right operand (tok1 - tok2)
                         result = tok1.value - tok2.value;
                         break;
                 }
@@ -92,11 +92,11 @@ public class Main {
             tokStack.add(tok);
         }
 
-        // The token stack should only consist of number tokens now
-        for (Token tok : tokStack) {
-            sum += ((NumToken) tok).value;
+        // A valid prefix expression should leave exactly one NumToken on the stack
+        if (!tokStack.isEmpty() && tokStack.peek() instanceof NumToken) {
+            return ((NumToken) tokStack.pop()).value;
         }
 
-        return sum;
+        return 0;
     }
 }

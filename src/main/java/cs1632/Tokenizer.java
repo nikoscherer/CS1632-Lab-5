@@ -42,7 +42,7 @@ public class Tokenizer {
                 do {
                     ch = nextChar();
                     if ((ch >= '0') && (ch <= '9')) {
-                        nString += ch;
+                        nString += (char) ch; // <-- Fixed: cast ch to char so multi-digit numbers parse correctly
                     }
                     else {
                         putback(ch);
