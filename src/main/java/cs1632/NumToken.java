@@ -7,4 +7,6 @@ public class NumToken extends Token {
         super(contents);
         value = Integer.valueOf(contents);
     }
+
+    public String getTokenType() { return "num"; }
 }

@@ -38,6 +38,7 @@ public class Main {
                 tokenSequence = getNextSequence(myScanner);
                 if (tokenSequence != null) {
                     // Replace the code starting here with code to evaluate the expression
+
                     System.out.print("Read equation: ");
                     for (Token tok : tokenSequence) {
                         System.out.print(tok.getTokenString() + " ");

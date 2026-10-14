@@ -21,4 +21,6 @@ public class OpToken extends Token {
         }
         operator = op;
     }
+
+    public String getTokenType() { return "op"; }
 }
