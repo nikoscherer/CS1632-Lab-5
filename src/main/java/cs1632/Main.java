@@ -1,6 +1,7 @@
 package cs1632;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -13,8 +14,8 @@ public class Main {
         }
         return false;
     }
-    private static Stack<Token> getNextSequence(Tokenizer toknizr) throws IOException {
-        Stack<Token> tokens = new Stack<>();
+    private static ArrayList<Token> getNextSequence(Tokenizer toknizr) throws IOException {
+        ArrayList<Token> tokens = new ArrayList<>();
         Token tok;
         do {
             tok = toknizr.nextToken();
@@ -32,26 +33,60 @@ public class Main {
     public static void main(String[] args) {
         try {
             Tokenizer myScanner = new Tokenizer(System.in);
-            Stack<Token> tokenSequence;
-            ArrayList<Token> postfixSequence = null;
+            ArrayList<Token> tokenSequence;
             do {
                 System.out.print("Equation: ");
                 tokenSequence = getNextSequence(myScanner);
                 if (tokenSequence != null) {
-                    // Replace the code starting here with code to evaluate the expression
-
+                    Stack<Token> tokStack = new Stack<>();
                     int sum = 0;
-                    for (int i = 0; i < tokenSequence.size(); i++) {
 
+                    // Iterate backwards from the end of the sequence (ignoring the trailing semicolon)
+                    for (int i = tokenSequence.size() - 2; i >= 0; i--) {
+                        Token tok = tokenSequence.get(i);
+                        if (tok.getTokenString().equals(";")) {
+                            continue;
+                        }
+                        if (tok.getTokenType().equals("op")) {
+                            OpToken opToken = (OpToken) tok;
+
+                            // For prefix evaluation, pop operands in order
+                            NumToken tok1 = (NumToken) tokStack.pop();
+                            NumToken tok2 = (NumToken) tokStack.pop();
+
+                            // Evaluate
+                            int result = 0;
+
+                            switch (opToken.getOperator()) {
+                                case '*':
+                                    result = tok1.value * tok2.value;
+                                    break;
+                                case '/':
+                                    result = tok1.value / tok2.value;
+                                    break;
+                                case '+':
+                                    result = tok1.value + tok2.value;
+                                    break;
+                                case '-':
+                                    result = tok1.value - tok2.value;
+                                    break;
+                            }
+
+                            tok = new NumToken(String.valueOf(result));
+                        }
+
+                        tokStack.add(tok);
                     }
 
-
-                    System.out.print("Read equation: ");
-                    for (Token tok : tokenSequence) {
-                        System.out.print(tok.getTokenString() + " ");
+                    // The token stack should only consist of number tokens now
+                    for (Token tok : tokStack) {
+                        sum += ((NumToken) tok).value;
                     }
-                    System.out.println();
-                    // End where to replace
+
+                    System.out.println(sum);
+
+                    System.out.print("Result: ");
+                    System.out.println(sum);
                 }
             } while (tokenSequence != null);
         }

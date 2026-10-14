@@ -3,7 +3,7 @@ package cs1632;
 public class OpToken extends Token {
     protected int operator;
     protected int precedence;
-    protected OpToken() { super(""); }
+    protected OpToken() { super("op"); }
     public int getOperator() { return operator; }
     public int getPrecedence() { return precedence; }
     public OpToken(int op) {
@@ -21,4 +21,6 @@ public class OpToken extends Token {
         }
         operator = op;
     }
+
+    public String getTokenType() { return "op"; }
 }
