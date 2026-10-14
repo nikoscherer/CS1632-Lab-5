@@ -2,6 +2,7 @@ package cs1632;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Main {
     private static Boolean endsSequence(Token tok) {
@@ -12,8 +13,8 @@ public class Main {
         }
         return false;
     }
-    private static ArrayList<Token> getNextSequence(Tokenizer toknizr) throws IOException {
-        ArrayList<Token> tokens = new ArrayList<>();
+    private static Stack<Token> getNextSequence(Tokenizer toknizr) throws IOException {
+        Stack<Token> tokens = new Stack<>();
         Token tok;
         do {
             tok = toknizr.nextToken();
@@ -31,13 +32,19 @@ public class Main {
     public static void main(String[] args) {
         try {
             Tokenizer myScanner = new Tokenizer(System.in);
-            ArrayList<Token> tokenSequence;
+            Stack<Token> tokenSequence;
             ArrayList<Token> postfixSequence = null;
             do {
                 System.out.print("Equation: ");
                 tokenSequence = getNextSequence(myScanner);
                 if (tokenSequence != null) {
                     // Replace the code starting here with code to evaluate the expression
+
+                    int sum = 0;
+                    for (int i = 0; i < tokenSequence.size(); i++) {
+
+                    }
+
 
                     System.out.print("Read equation: ");
                     for (Token tok : tokenSequence) {

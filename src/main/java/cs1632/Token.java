@@ -5,6 +5,4 @@ public class Token {
     private Token() { tokenString = ""; }
     public Token(String ts) { tokenString = ts; }
     public String getTokenString() { return tokenString; }
-
-    public String getTokenType() { return ""; }
 }
